@@ -15,6 +15,7 @@
 		9BF394572814C01800BB22EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BF394552814C01800BB22EA /* LaunchScreen.storyboard */; };
 		9BF394612814C09700BB22EA /* DaysTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF394602814C09700BB22EA /* DaysTableViewCell.swift */; };
 		9BF394632814C35000BB22EA /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF394622814C35000BB22EA /* Model.swift */; };
+		9BF394652814D0F400BB22EA /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF394642814D0F400BB22EA /* Network.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9BF394582814C01800BB22EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BF394602814C09700BB22EA /* DaysTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysTableViewCell.swift; sourceTree = "<group>"; };
 		9BF394622814C35000BB22EA /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		9BF394642814D0F400BB22EA /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				9BF394582814C01800BB22EA /* Info.plist */,
 				9BF394602814C09700BB22EA /* DaysTableViewCell.swift */,
 				9BF394622814C35000BB22EA /* Model.swift */,
+				9BF394642814D0F400BB22EA /* Network.swift */,
 			);
 			path = WeatherForecast2;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			files = (
 				9BF394632814C35000BB22EA /* Model.swift in Sources */,
 				9BF3944F2814C01500BB22EA /* ViewController.swift in Sources */,
+				9BF394652814D0F400BB22EA /* Network.swift in Sources */,
 				9BF3944B2814C01500BB22EA /* AppDelegate.swift in Sources */,
 				9BF394612814C09700BB22EA /* DaysTableViewCell.swift in Sources */,
 				9BF3944D2814C01500BB22EA /* SceneDelegate.swift in Sources */,

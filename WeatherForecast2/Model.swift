@@ -12,7 +12,7 @@ class Reponse : Decodable{
     var lat : Double?
     var lon : Double?
     var timezone : String?
-    var timezone_offset : Double?
+    var timezone_offset : Int?
     var current : Current?
     var hourly : [Hourly]?
     var daily : [Daily]?
@@ -75,9 +75,8 @@ class Daily :Decodable {
     var wind_deg : Int?
     var wind_gust : Float?
     var weather : [Weather]?
-    var pop : Float?
     var rain : Float?
-    
+    var pop : Float?
 }
 class Temp : Decodable{
     var day : Float?
@@ -88,7 +87,7 @@ class Temp : Decodable{
     var morn : Float?
     
 }
-class Feels_like{
+class Feels_like : Decodable{
     
      var day : Float?
      var night :Float?
