@@ -26,13 +26,14 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
             //table reload
             DispatchQueue.main.async {
                 
-                print(result?.daily)
+                print(result?.lat)
                 myIndicator.stopAnimating()
-                self?.mydays = result?.daily
+//                self?.mydays = result?.daily
                 self?.myTable.reloadData()
             }
-            } , lon: 0.0 , lat: 0.0)
+            } ,lon: 29.924526 , lat: 31.205753)
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return 7
       }

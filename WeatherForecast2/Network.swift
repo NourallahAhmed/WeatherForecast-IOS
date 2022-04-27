@@ -14,7 +14,7 @@ class NetworkDelegate{
          
         print(lat )
          // 1 URL
-         let myUrl = URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=0.0&lon=0.0&appid=00cc0edd6a289076e66954faceaf9259")
+         let myUrl = URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(lon)&appid=00cc0edd6a289076e66954faceaf9259")
         guard let newUrl = myUrl else {
              print("Error while unwrapping URL")
              return

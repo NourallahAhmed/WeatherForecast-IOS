@@ -8,89 +8,132 @@
 
 import Foundation
 
-class Reponse : Decodable{
-    var lat : Double?
-    var lon : Double?
-    var timezone : String?
-    var timezone_offset : Int?
-    var current : Current?
-    var hourly : [Hourly]?
-    var daily : [Daily]?
+class Reponse : Codable {
+    let lat: Double?
+    let lon: Double?
+    let timezone: String?
+    let timezoneOffset: Int?
+    let current: Current?
+//    let hourly: [Hourly]?
+//    let daily: [Daily]?
+    private enum CodingKeys: String, CodingKey {
+        case lat = "lat"
+        case lon = "lon"
+        case timezone = "timezone"
+        case timezoneOffset = "timezone_offset"
+        case current = "current"
+//        case hourly = "hourly"
+//        case daily = "daily"
+    }
+
+
 }
-class Current :Decodable{
-    var dt : Int?
-    var sunrise : Int?
-    var sunset : Int?
-    var temp : Float?
-    var feels_like : Float?
-    var pressure : Int?
-    var humidity : Int?
-    var dew_point : Float?
-    var uvi : Int?
-    var clouds : Int?
-    var visibility : Int?
-    var wind_speed :Float?
-    var wind_deg : Int?
-    var wind_gust : Float?
-    var weather : [Weather]?
-}
-class Weather :Decodable{
-    var id : Int?
-    var main : String?
+
+class Alerts : Decodable{
+    var sender_name : String?
+    var event : String?
+    var start : Int?
+    var end : Int?
     var description : String?
-    var icon : String?
+    var tags : [String]?
 }
-class Hourly :Decodable {
-    var dt : Int?
-    var temp : Float?
-    var feels_like : Float?
-    var pressure : Int?
-    var humidity : Int?
-    var dew_point : Float?
-    var uvi : Int?
-    var clouds : Int?
-    var visibility : Int?
-    var wind_speed :Float?
-    var wind_deg : Int?
-    var wind_gust : Float?
-    var weather : [Weather]?
-    var pop : Int?
+class Current : Codable  {
+    let dt: Int?
+    let sunrise: Int?
+    let sunset: Int?
+    let temp: Int?
+    let feelsLike: Double?
+    let pressure: Int?
+    let humidity: Int?
+    let dewPoint: Double?
+    let uvi: Double?
+    let clouds: Int?
+    let visibility: Int?
+    let windSpeed: Double?
+    let windDeg: Int?
+    let weather: [Weather]?
+    private enum CodingKeys: String, CodingKey {
+        case dt = "dt"
+        case sunrise = "sunrise"
+        case sunset = "sunset"
+        case temp = "temp"
+        case feelsLike = "feels_like"
+        case pressure = "pressure"
+        case humidity = "humidity"
+        case dewPoint = "dew_point"
+        case uvi = "uvi"
+        case clouds = "clouds"
+        case visibility = "visibility"
+        case windSpeed = "wind_speed"
+        case windDeg = "wind_deg"
+        case weather = "weather"
+    }
+
+
+
+}
+class Weather :Codable{
+   let id: Int?
+    let main: String?
+    let description: String?
+    let icon: String?
+
+
+}
+class Hourly :Codable {
+    let dt: Double?
+    let temp: Double?
+    let feelsLike: Double?
+    let pressure: Int?
+    let humidity: Int?
+    let dewPoint: Double?
+    let uvi: Double?
+    let clouds: Int?
+    let visibility: Int?
+    let windSpeed: Double?
+    let windDeg: Int?
+    let windGust: Double?
+    let weather: [Weather]?
+    let pop: Int?
+
+
 }
 class Daily :Decodable {
-    var dt : Int?
-    var sunrise : Int?
-    var sunset : Int?
-    var moonrise : Int?
-    var moonset : Int?
-    var moon_phase :Float?
-    var temp :Temp?
-    var feels_like : Feels_like?
-    var pressure : Int?
-    var humidity : Int?
-    var dew_point : Float?
-    var uvi : Int?
-    var clouds : Int?
-    var visibility : Int?
-    var wind_speed :Float?
-    var wind_deg : Int?
-    var wind_gust : Float?
-    var weather : [Weather]?
-    var rain : Float?
-    var pop : Float?
+    
+    let dt: Double?
+    let sunrise: Int?
+    let sunset: Int?
+    let moonrise: Int?
+    let moonset: Int?
+    let moonPhase: Double?
+    let temp: Temp?
+    let feelsLike: FeelsLike?
+    let pressure: Int?
+    let humidity: Int?
+    let dewPoint: Double?
+    let windSpeed: Double?
+    let windDeg: Int?
+    let windGust: Double?
+    let weather: [Weather]?
+    let clouds: Int?
+    let pop: Int?
+    let uvi: Double?
+
 }
-class Temp : Decodable{
-    var day : Float?
-    var min : Float?
-    var max : Float?
-    var night :Float?
-    var eve : Float?
-    var morn : Float?
+class Temp : Codable{
+    
+    let day: Double?
+    let min: Double?
+    let max: Int?
+    let night: Double?
+    let eve: Double?
+    let morn: Double?
     
 }
-class Feels_like : Decodable{
+class FeelsLike : Codable{
     
-     var day : Float?
-     var night :Float?
-     var eve : Float?
-     var morn : Float?
+     let day: Double?
+     let night: Double?
+     let eve: Double?
+     let morn: Double?
 }
