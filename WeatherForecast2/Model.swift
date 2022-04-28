@@ -14,23 +14,21 @@ class Reponse : Codable {
     let timezone: String?
     let timezoneOffset: Int?
     let current: Current?
-//    let hourly: [Hourly]?
-//    let daily: [Daily]?
+    let hourly: [Hourly]?
+    let daily: [Daily]?
     private enum CodingKeys: String, CodingKey {
         case lat = "lat"
         case lon = "lon"
         case timezone = "timezone"
         case timezoneOffset = "timezone_offset"
         case current = "current"
-//        case hourly = "hourly"
-//        case daily = "daily"
+        case hourly = "hourly"
+        case daily = "daily"
     }
-
-
 }
 
 class Alerts : Decodable{
-    var sender_name : String?
+    var senderName : String?
     var event : String?
     var start : Int?
     var end : Int?
@@ -41,7 +39,7 @@ class Current : Codable  {
     let dt: Int?
     let sunrise: Int?
     let sunset: Int?
-    let temp: Int?
+    let temp: Double?
     let feelsLike: Double?
     let pressure: Int?
     let humidity: Int?
@@ -68,18 +66,16 @@ class Current : Codable  {
         case windDeg = "wind_deg"
         case weather = "weather"
     }
-
-
-
+    
 }
+
 class Weather :Codable{
    let id: Int?
     let main: String?
     let description: String?
     let icon: String?
-
-
 }
+
 class Hourly :Codable {
     let dt: Double?
     let temp: Double?
@@ -98,7 +94,7 @@ class Hourly :Codable {
 
 
 }
-class Daily :Decodable {
+class Daily :Codable {
     
     let dt: Double?
     let sunrise: Int?
@@ -124,7 +120,7 @@ class Temp : Codable{
     
     let day: Double?
     let min: Double?
-    let max: Int?
+    let max: Double?
     let night: Double?
     let eve: Double?
     let morn: Double?
