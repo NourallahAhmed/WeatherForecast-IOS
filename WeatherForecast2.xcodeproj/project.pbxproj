@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B5DE2E4281AAD6400835636 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DE2E3281AAD6400835636 /* CustomCollectionViewCell.swift */; };
+		9B5DE2EC281AD6C100835636 /* HourTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DE2EB281AD6C100835636 /* HourTableViewCell.swift */; };
+		9B5DE2F0281AE18800835636 /* HourlyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DE2EF281AE18800835636 /* HourlyCollectionViewCell.swift */; };
 		9B83B472281A0A6200033614 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B83B471281A0A6100033614 /* default.png */; };
 		9B83B478281A1B7400033614 /* visible.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9B83B473281A1B7300033614 /* visible.jpeg */; };
 		9B83B479281A1B7400033614 /* wind.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9B83B474281A1B7300033614 /* wind.jpeg */; };
@@ -29,6 +32,9 @@
 		27C4D0B957E1DAD61C2E9C46 /* Pods-WeatherForecast2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast2.debug.xcconfig"; path = "Target Support Files/Pods-WeatherForecast2/Pods-WeatherForecast2.debug.xcconfig"; sourceTree = "<group>"; };
 		65236FF0706CE8AAE445F049 /* Pods_WeatherForecast2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherForecast2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71A661C61BD6901852D3A441 /* Pods-WeatherForecast2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast2.release.xcconfig"; path = "Target Support Files/Pods-WeatherForecast2/Pods-WeatherForecast2.release.xcconfig"; sourceTree = "<group>"; };
+		9B5DE2E3281AAD6400835636 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		9B5DE2EB281AD6C100835636 /* HourTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourTableViewCell.swift; sourceTree = "<group>"; };
+		9B5DE2EF281AE18800835636 /* HourlyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B83B471281A0A6100033614 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default.png; path = ../../../Iti/Swift/Movie_API_NetworkCheck/default.png; sourceTree = "<group>"; };
 		9B83B473281A1B7300033614 /* visible.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = visible.jpeg; path = ../../../../Downloads/visible.jpeg; sourceTree = "<group>"; };
 		9B83B474281A1B7300033614 /* wind.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wind.jpeg; path = ../../../../Downloads/wind.jpeg; sourceTree = "<group>"; };
@@ -114,6 +120,9 @@
 				9BF394602814C09700BB22EA /* DaysTableViewCell.swift */,
 				9BF394622814C35000BB22EA /* Model.swift */,
 				9BF394642814D0F400BB22EA /* Network.swift */,
+				9B5DE2E3281AAD6400835636 /* CustomCollectionViewCell.swift */,
+				9B5DE2EB281AD6C100835636 /* HourTableViewCell.swift */,
+				9B5DE2EF281AE18800835636 /* HourlyCollectionViewCell.swift */,
 			);
 			path = WeatherForecast2;
 			sourceTree = "<group>";
@@ -240,7 +249,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BF394632814C35000BB22EA /* Model.swift in Sources */,
+				9B5DE2E4281AAD6400835636 /* CustomCollectionViewCell.swift in Sources */,
+				9B5DE2F0281AE18800835636 /* HourlyCollectionViewCell.swift in Sources */,
 				9BF3944F2814C01500BB22EA /* ViewController.swift in Sources */,
+				9B5DE2EC281AD6C100835636 /* HourTableViewCell.swift in Sources */,
 				9BF394652814D0F400BB22EA /* Network.swift in Sources */,
 				9BF3944B2814C01500BB22EA /* AppDelegate.swift in Sources */,
 				9BF394612814C09700BB22EA /* DaysTableViewCell.swift in Sources */,

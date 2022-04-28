@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,17 +28,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uoZ-gS-i5j">
-                                <rect key="frame" x="171.5" y="165" width="71" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vgd-R0-38r">
-                                <rect key="frame" x="0.0" y="211" width="414" height="390"/>
+                                <rect key="frame" x="0.0" y="345" width="414" height="280"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="390" id="gEM-di-lga"/>
+                                    <constraint firstAttribute="height" constant="280" id="gEM-di-lga"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="Nou-6M-v5T" customClass="DaysTableViewCell" customModule="WeatherForecast2" customModuleProvider="target">
@@ -87,16 +82,119 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TgL-NL-4fD">
+                                <rect key="frame" x="0.0" y="635" width="414" height="209"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pxn-ko-tee">
+                                    <size key="itemSize" width="189" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="cell2" reuseIdentifier="cell2" id="YzA-oh-tLV" customClass="CustomCollectionViewCell" customModule="WeatherForecast2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="40.5" width="189" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="zSa-ih-Rqn">
+                                            <rect key="frame" x="0.0" y="0.0" width="189" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oyN-dm-LCB">
+                                                    <rect key="frame" x="32" y="8" width="125" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="eei-w6-gVK"/>
+                                                        <constraint firstAttribute="width" constant="60" id="mhT-2O-dIs"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0YD-ge-TYp">
+                                                    <rect key="frame" x="32" y="66" width="125" height="54"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="oyN-dm-LCB" firstAttribute="top" secondItem="zSa-ih-Rqn" secondAttribute="top" constant="8" id="7hj-3c-PDZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="0YD-ge-TYp" secondAttribute="trailing" constant="32" id="FnB-Hq-b7V"/>
+                                                <constraint firstAttribute="bottom" secondItem="0YD-ge-TYp" secondAttribute="bottom" constant="8" id="GvV-YE-LMt"/>
+                                                <constraint firstAttribute="trailing" secondItem="oyN-dm-LCB" secondAttribute="trailing" constant="32" id="Wpt-BC-2I9"/>
+                                                <constraint firstItem="oyN-dm-LCB" firstAttribute="leading" secondItem="zSa-ih-Rqn" secondAttribute="leading" constant="32" id="aDQ-om-1oD"/>
+                                                <constraint firstItem="0YD-ge-TYp" firstAttribute="leading" secondItem="zSa-ih-Rqn" secondAttribute="leading" constant="32" id="e0e-Qb-DhS"/>
+                                                <constraint firstItem="0YD-ge-TYp" firstAttribute="top" secondItem="oyN-dm-LCB" secondAttribute="bottom" constant="8" id="e9K-7V-bu3"/>
+                                                <constraint firstItem="oyN-dm-LCB" firstAttribute="centerX" secondItem="zSa-ih-Rqn" secondAttribute="centerX" id="jG1-N9-oCx"/>
+                                                <constraint firstItem="0YD-ge-TYp" firstAttribute="centerX" secondItem="zSa-ih-Rqn" secondAttribute="centerX" id="nzk-O1-EbH"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="189" height="128"/>
+                                        <connections>
+                                            <outlet property="myImage" destination="oyN-dm-LCB" id="pyQ-zz-DUR"/>
+                                            <outlet property="myLabel" destination="0YD-ge-TYp" id="bwQ-IA-x3f"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ern-Xh-ZYH">
+                                <rect key="frame" x="0.0" y="209" width="414" height="128"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Ern-Xh-ZYH" secondAttribute="height" multiplier="207:64" id="tAp-s5-nI5"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Hfc-nm-dXr" customClass="HourTableViewCell" customModule="WeatherForecast2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="hourcell" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hfc-nm-dXr" id="Evp-xd-lkG">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ye0-BI-TV7">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="QIb-BY-iYc">
+                                                        <size key="itemSize" width="127" height="44"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="c2F-oc-wrV" customClass="HourlyCollectionViewCell" customModule="WeatherForecast2" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="127" height="44"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="rJg-0c-Ge8">
+                                                                <rect key="frame" x="0.0" y="0.0" width="127" height="44"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </collectionViewCellContentView>
+                                                            <size key="customSize" width="127" height="44"/>
+                                                        </collectionViewCell>
+                                                    </cells>
+                                                </collectionView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uoZ-gS-i5j">
+                                <rect key="frame" x="171.5" y="151" width="71" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Vgd-R0-38r" firstAttribute="top" secondItem="uoZ-gS-i5j" secondAttribute="bottom" constant="10" id="11U-PI-Unl"/>
                             <constraint firstItem="Vgd-R0-38r" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1J6-mh-hTX"/>
+                            <constraint firstItem="Vgd-R0-38r" firstAttribute="top" secondItem="Ern-Xh-ZYH" secondAttribute="bottom" constant="8" id="5OR-Ih-15A"/>
+                            <constraint firstItem="uoZ-gS-i5j" firstAttribute="top" secondItem="G5Y-MM-n0X" secondAttribute="bottom" constant="7.5" id="6Mx-R9-dTj"/>
                             <constraint firstItem="G5Y-MM-n0X" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="B2m-Iv-l6t"/>
+                            <constraint firstItem="Ern-Xh-ZYH" firstAttribute="top" secondItem="uoZ-gS-i5j" secondAttribute="bottom" constant="22" id="BGI-gU-HHf"/>
+                            <constraint firstItem="Ern-Xh-ZYH" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="BnP-3O-c8a"/>
                             <constraint firstItem="yJE-WQ-Kxd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="HqF-1m-gO9"/>
                             <constraint firstItem="Vgd-R0-38r" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VM3-Px-Qre"/>
                             <constraint firstItem="G5Y-MM-n0X" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="X9B-tr-bNK"/>
-                            <constraint firstItem="uoZ-gS-i5j" firstAttribute="top" secondItem="G5Y-MM-n0X" secondAttribute="bottom" constant="21.5" id="dQe-as-Uni"/>
+                            <constraint firstItem="Ern-Xh-ZYH" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="bfo-vt-cbL"/>
+                            <constraint firstItem="Ern-Xh-ZYH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="e1y-T3-ziG"/>
                             <constraint firstItem="G5Y-MM-n0X" firstAttribute="top" secondItem="yJE-WQ-Kxd" secondAttribute="bottom" constant="29.5" id="jiM-Af-NCb"/>
                             <constraint firstItem="yJE-WQ-Kxd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="nwZ-nZ-JUS"/>
                             <constraint firstItem="uoZ-gS-i5j" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ouX-AE-nQA"/>
@@ -106,7 +204,9 @@
                     <connections>
                         <outlet property="currentDescLabel" destination="G5Y-MM-n0X" id="Tpy-M4-LO3"/>
                         <outlet property="currentTempLabel" destination="uoZ-gS-i5j" id="WUv-Qq-8R3"/>
+                        <outlet property="hourlyTableView" destination="Ern-Xh-ZYH" id="E42-y8-BYE"/>
                         <outlet property="myTable" destination="Vgd-R0-38r" id="I8P-lG-igZ"/>
+                        <outlet property="mycollection" destination="TgL-NL-4fD" id="Rfe-ZZ-AtG"/>
                         <outlet property="timeZoneLabel" destination="yJE-WQ-Kxd" id="dvl-kZ-AUY"/>
                     </connections>
                 </viewController>
