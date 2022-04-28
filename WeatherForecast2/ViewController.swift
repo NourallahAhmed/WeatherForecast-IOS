@@ -16,7 +16,7 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
     @IBOutlet weak var myTable: UITableView!
     @IBOutlet weak var timeZoneLabel: UILabel!
     @IBOutlet weak var mycollection: UICollectionView!
-    @IBOutlet weak var hourlyTableView: UITableView!
+    @IBOutlet weak var hourCollection: UICollectionView!
     var mydays : [Daily]?
     var hourly : [Hourly]?
     var current : Current?
@@ -28,18 +28,17 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         myTable.dataSource = self
         mycollection.delegate = self
         mycollection.dataSource = self
-        hourlyTableView.dataSource = self
-        hourlyTableView.delegate = self
-        
-        //         Register cell classes
+        hourCollection.delegate = self
+        hourCollection.dataSource = self
+        //Register cell classes
         //        self.mycollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
-        self.myTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.hourlyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "hourcell")
-
+        //        self.myTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        //        self.hourlyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "hourcell")
         
         
         
-//         self.myTable.register(UITableViewCell.self, forCellWithReuseIdentifier: "cell")
+        
+        //         self.myTable.register(UITableViewCell.self, forCellWithReuseIdentifier: "cell")
         //NetworkIndecator
         let myIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
         myIndicator.center = self.view.center
@@ -72,11 +71,20 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
                 myIndicator.stopAnimating()
                 print(result?.lat)
                 self?.mydays = result?.daily
+                self?.hourly = result?.hourly
+                
+                
+                // Mark: set current temp
                 self?.currentDescLabel.text = result?.current?.weather?.first?.description
                 let ctemp = result?.current?.temp!
                 self?.currentTempLabel.text = String(format: "%.2f", ctemp ?? " ") + " C"
                 self?.timeZoneLabel.text = result?.timezone ?? " "
+                
+                //reload data
                 self?.myTable.reloadData()
+                
+//                self?.mycollection.reloadData()
+                self?.hourCollection.reloadData()
             }
             } ,lon: 29.924526 , lat: 31.205753 , unit: "metric")
         
@@ -93,23 +101,21 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var theReturn = 0
         if tableView == myTable{
+            print("mytable")
             theReturn = mydays?.count ?? 0
         }
-        if tableView == hourlyTableView {
-            theReturn = hourly?.count ?? 0
-        }
+//        else if tableView == hourlyTableView {
+//            print("hourtable")
+//            theReturn = 0
+//        }
         return theReturn
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell :UITableViewCell?
-//        let hourcell = tableView.dequeueReusableCell(withIdentifier: "hourcell", for: indexPath) as! HourTableViewCell
-//        let daycell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DaysTableViewCell
-        switch tableView {
-        case myTable:
-            if let cell = cell as? DaysTableViewCell{
-//                cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DaysTableViewCell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DaysTableViewCell {
+            
+            print("hello ")
             let weather  : Weather?
             weather = (mydays?[indexPath.row].weather)?.first
             // Create Date
@@ -123,9 +129,10 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
             print(dateFormatter)
             //print("date \(date)")
             //cell.dayLabel.text = date as? String
+            
             // Mark:- Temp  and Desc
             let tempresult =  mydays?[indexPath.row].temp?.max
-            cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + " C"
+            cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + " C" ?? " nil"
             cell.descLabel.text = weather?.description ?? "nil"
             // Mark:- Icon
             let icon = weather?.icon ?? " "
@@ -134,44 +141,69 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
             let image = UIImage(named: "default.png")
             cell.dayImage?.image = image
             cell.dayImage?.kf.setImage(with:  url, placeholder: image , options: nil, progressBlock: nil)
-
-            }
-        case hourlyTableView:
-            let hourcell = tableView.dequeueReusableCell(withIdentifier: "hourcell", for: indexPath) as! HourTableViewCell
-            return hourcell
-        default:
-            print("default")
-        }
-        return UITableViewCell()
-}
-        //Mark : Collection
-        
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return 6
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as! CustomCollectionViewCell
-            cell.myImage.image = UIImage(named: "pressure.jpeg")
-            //
-            cell.myLabel.text = "clouds"
-            
             return cell
+            
         }
-        func numberOfSections(in collectionView: UICollectionView) -> Int {
-            return 1
-        }
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            print("jiiiii")
-            //          let width = UIScreen.main.bounds.width / 2
-            //            return CGSize(width: width, height: 100)
-            var collectionViewSize = collectionView.frame.size
-            collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
-            collectionViewSize.height = collectionViewSize.height/4.0
-            return collectionViewSize
-        }
-        
+            
+//        else if let cell = tableView.dequeueReusableCell(withIdentifier: "hourcell", for: indexPath) as? HourTableViewCell{
+//            return cell
+//
+//        }
+        return UITableViewCell()
         
     }
+    //Mark : Collection
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == hourCollection {
+//            print("hello : \(hourly?.count)")
+//            return hourly?.count ?? 1
+            return 3
+        }else{
+            return 6
+        }
+       
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("almost there")
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as? CustomCollectionViewCell{
+            print("okay")
+        cell.myImage.image = UIImage(named: "pressure.jpeg")
+        cell.myLabel.text = "clouds"
+        
+            return cell
+            
+        }
+        else if let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "hourcell", for: indexPath) as? HourlyCollectionViewCell{
+            print("welcome")
+//            let tempresult =  hourly?[indexPath.row].temp
+            cell.tempLabel.text = "90" //String(format: "%.2f", tempresult ?? "nil" ) + " C"
+            cell.hourLabel.text = "sun" // String(format: "%.2f",  hourly?[indexPath.row].dt ?? " ") 
+            cell.myImageView.image = UIImage (named: "default.png")
+            return cell
+        }
+        return UICollectionViewCell()
+    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if collectionView == hourCollection{
+            print("ana hena")
+            return 1
+        }
+        else{
+            return 1
+            
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        var collectionViewSize = collectionView.frame.size
+        collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
+        collectionViewSize.height = collectionViewSize.height/4.0
+        return collectionViewSize
+    }
+    
+    
+}
+
 

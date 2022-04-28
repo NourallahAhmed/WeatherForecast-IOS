@@ -8,8 +8,33 @@
 
 import UIKit
 
-class HourTableViewCell: UITableViewCell {
+class HourTableViewCell: UITableViewCell   {
+    
+    
+    
+    
+   
+    
 
+    @IBOutlet weak var myCollectionView: UICollectionView!
+    
+    
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        //based on the hourly array count
+//            return 24
+//       }
+//
+//       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HourlyCollectionCell", for: indexPath) as! HourlyCollectionViewCell
+//
+//        cell.myImageView.image = UIImage(named: "default.png")
+//        cell.hourLabel.text = "test"
+//        cell.tempLabel.text = "text"
+//        return cell
+//       }
+//    override func layoutSubviews() {
+//        myCollectionView.dataSource = self
+//    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
