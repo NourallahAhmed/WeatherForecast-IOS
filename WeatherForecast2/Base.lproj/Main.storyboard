@@ -141,7 +141,7 @@
                                     <constraint firstAttribute="width" secondItem="Ern-Xh-ZYH" secondAttribute="height" multiplier="207:64" id="tAp-s5-nI5"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Hfc-nm-dXr" customClass="HourTableViewCell" customModule="WeatherForecast2" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="hourcell" id="Hfc-nm-dXr" customClass="HourTableViewCell" customModule="WeatherForecast2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="hourcell" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hfc-nm-dXr" id="Evp-xd-lkG">
