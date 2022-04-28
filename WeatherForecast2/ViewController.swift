@@ -31,7 +31,11 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         hourCollection.delegate = self
         hourCollection.dataSource = self
         //Register cell classes
-        //        self.mycollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
+        var nib = UINib(nibName: "UICollectionElementKindCell", bundle:nil)
+        self.mycollection
+            .register(nib, forCellWithReuseIdentifier: "cell2")
+
+//        self.mycollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
         //        self.myTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         //        self.hourlyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "hourcell")
         
