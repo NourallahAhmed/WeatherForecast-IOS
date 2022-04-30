@@ -20,11 +20,16 @@ class MapViewController: UIViewController , MKMapViewDelegate ,CLLocationManager
     
     var lat : Double?
     var lon : Double?
-    
+    var myUsetDefaults : UserDefaults?
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        //userDefaults
+        myUsetDefaults = UserDefaults.standard
+        
+        
         //1
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         //2
@@ -69,7 +74,10 @@ class MapViewController: UIViewController , MKMapViewDelegate ,CLLocationManager
  
         print("okay")
         //userdefaults to save them
-        print("Lat : \(lat) \n Lon : \(lon)")
+        print("Lat : \(String(describing: lat)) \n Lon : \(String(describing: lon))")
+        myUsetDefaults?.set(lat, forKey: "lat")
+        myUsetDefaults?.set(lon, forKey: "lon")
+
         navigationController?.popViewController(animated: true)
     }
    
@@ -84,7 +92,7 @@ class MapViewController: UIViewController , MKMapViewDelegate ,CLLocationManager
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     override funString(describing: c p)repare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }

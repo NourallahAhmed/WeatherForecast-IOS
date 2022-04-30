@@ -17,10 +17,15 @@ class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPicker
     
     var tempunit = ["Kelvin" , "Celsius" , "Fahrenheit"]
     var location = ["Map","GPS"]
+    var myUsetDefaults : UserDefaults?
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        
+        
+        //userDefaults
+        myUsetDefaults = UserDefaults.standard
         
         unitPicker.dataSource = self
         unitPicker.delegate = self
@@ -89,11 +94,27 @@ class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPicker
             if row == 0 {
             var mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
                 self.navigationController?.pushViewController(mapScreen, animated: true)
-                
+                myUsetDefaults?.set(location[row], forKey: "location")
+            }else{
+                myUsetDefaults?.set(location[row], forKey: "location")
+
             }
         }
         else if pickerView == unitPicker{
             print("selected \(tempunit[row])")
+            /*
+             For temperature in Fahrenheit use units=imperial
+             For temperature in Celsius use units=metric
+             Temperature in Kelvin is used by default, no need to use units parameter in API call
+             */
+            switch tempunit[row] {
+            case "Fahrenheit":
+                myUsetDefaults?.set("imperial", forKey: "tempUnit")
+            case "Celsius":
+                myUsetDefaults?.set("metric", forKey: "tempUnit")
+            default:
+                myUsetDefaults?.set("standard", forKey: "tempUnit")
+            }
 
         }
     }
