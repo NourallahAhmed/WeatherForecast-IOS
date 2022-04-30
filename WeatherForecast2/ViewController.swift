@@ -9,7 +9,9 @@
 import UIKit
 import Alamofire
 import Kingfisher
-class ViewController: UIViewController , UITableViewDataSource , UITableViewDelegate , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
+
+// UICollectionViewDataSource,
+class ViewController: UIViewController , UITableViewDataSource , UITableViewDelegate , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var currentTempLabel: UILabel!
     @IBOutlet weak var currentDescLabel: UILabel!
@@ -26,29 +28,37 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         super.viewDidLoad()
         myTable.delegate = self
         myTable.dataSource = self
-        mycollection.delegate = self
-        mycollection.dataSource = self
-        hourCollection.delegate = self
-        hourCollection.dataSource = self
+        //to display -> pressure and windspeed and so on
+       // mycollection.delegate = self
+//        mycollection.dataSource = self
+        
+        
+        //to display -> the temp each hour (( will be displayed horizontaly ))
+//        hourCollection.delegate = self
+//        hourCollection.dataSource = self
+        
+        
         //Register cell classes
+        /*
+        mycollection.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
+
+        
+        
+        // --> try the nib
         var nib = UINib(nibName: "UICollectionElementKindCell", bundle:nil)
         self.mycollection
             .register(nib, forCellWithReuseIdentifier: "cell2")
 
-//        self.mycollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
-        //        self.myTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        //        self.hourlyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "hourcell")
-        
-        
-        
-        
-        //         self.myTable.register(UITableViewCell.self, forCellWithReuseIdentifier: "cell")
+
+*/
         //NetworkIndecator
         let myIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
         myIndicator.center = self.view.center
         self.view.addSubview(myIndicator)
         myIndicator.startAnimating()
-        //trying AlamoFire
+        
+        
+        // Mark : trying AlamoFire
         
         //assign parameters
         //let parameters = ["lon":29.924526, "lat": 31.205753 ,"appid": "00cc0edd6a289076e66954faceaf9259" ] as [String : Any]
@@ -74,11 +84,12 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
             DispatchQueue.main.async {
                 myIndicator.stopAnimating()
                 print(result?.lat)
+                // Mark :- set the array of daily and hourly information
                 self?.mydays = result?.daily
                 self?.hourly = result?.hourly
                 
                 
-                // Mark: set current temp
+                // Mark :- set current temp
                 self?.currentDescLabel.text = result?.current?.weather?.first?.description
                 let ctemp = result?.current?.temp!
                 self?.currentTempLabel.text = String(format: "%.2f", ctemp ?? " ") + " C"
@@ -88,7 +99,7 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
                 self?.myTable.reloadData()
                 
 //                self?.mycollection.reloadData()
-                self?.hourCollection.reloadData()
+//                self?.hourCollection.reloadData()
             }
             } ,lon: 29.924526 , lat: 31.205753 , unit: "metric")
         
@@ -136,8 +147,9 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
             
             // Mark:- Temp  and Desc
             let tempresult =  mydays?[indexPath.row].temp?.max
-            cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + " C" ?? " nil"
+            cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + " C"
             cell.descLabel.text = weather?.description ?? "nil"
+            
             // Mark:- Icon
             let icon = weather?.icon ?? " "
             print("theIcon : \(icon)")
@@ -156,11 +168,14 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         return UITableViewCell()
         
     }
+    
+    /*
     //Mark : Collection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("collection!")
         if collectionView == hourCollection {
-//            print("hello : \(hourly?.count)")
+            print("hello : \(hourly?.count)")
 //            return hourly?.count ?? 1
             return 3
         }else{
@@ -169,15 +184,17 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
        
     }
 
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("almost there")
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as? CustomCollectionViewCell{
             print("okay")
         cell.myImage.image = UIImage(named: "pressure.jpeg")
         cell.myLabel.text = "clouds"
-        
+
             return cell
-            
+
         }
         else if let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "hourcell", for: indexPath) as? HourlyCollectionViewCell{
             print("welcome")
@@ -189,16 +206,7 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         }
         return UICollectionViewCell()
     }
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if collectionView == hourCollection{
-            print("ana hena")
-            return 1
-        }
-        else{
-            return 1
-            
-        }
-    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         var collectionViewSize = collectionView.frame.size
@@ -206,7 +214,7 @@ class ViewController: UIViewController , UITableViewDataSource , UITableViewDele
         collectionViewSize.height = collectionViewSize.height/4.0
         return collectionViewSize
     }
-    
+    */
     
 }
 

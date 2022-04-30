@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B4993F7281CB2AC00D9A441 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4993F6281CB2AC00D9A441 /* MapViewController.swift */; };
+		9B4993F9281CB75100D9A441 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4993F8281CB75100D9A441 /* MapKit.framework */; };
+		9B4993FB281CBE2D00D9A441 /* MyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4993FA281CBE2D00D9A441 /* MyAnnotation.swift */; };
 		9B5DE2E4281AAD6400835636 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DE2E3281AAD6400835636 /* CustomCollectionViewCell.swift */; };
 		9B5DE2F0281AE18800835636 /* HourlyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DE2EF281AE18800835636 /* HourlyCollectionViewCell.swift */; };
 		9B5DE2F2281B211400835636 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DE2F1281B211400835636 /* SettingsViewController.swift */; };
@@ -26,6 +29,9 @@
 		27C4D0B957E1DAD61C2E9C46 /* Pods-WeatherForecast2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast2.debug.xcconfig"; path = "Target Support Files/Pods-WeatherForecast2/Pods-WeatherForecast2.debug.xcconfig"; sourceTree = "<group>"; };
 		65236FF0706CE8AAE445F049 /* Pods_WeatherForecast2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherForecast2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71A661C61BD6901852D3A441 /* Pods-WeatherForecast2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast2.release.xcconfig"; path = "Target Support Files/Pods-WeatherForecast2/Pods-WeatherForecast2.release.xcconfig"; sourceTree = "<group>"; };
+		9B4993F6281CB2AC00D9A441 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		9B4993F8281CB75100D9A441 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9B4993FA281CBE2D00D9A441 /* MyAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAnnotation.swift; sourceTree = "<group>"; };
 		9B5DE2E3281AAD6400835636 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B5DE2EF281AE18800835636 /* HourlyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B5DE2F1281B211400835636 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B4993F9281CB75100D9A441 /* MapKit.framework in Frameworks */,
 				D8B8DD24621922377C59B041 /* Pods_WeatherForecast2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -57,6 +64,7 @@
 		23620D707519356AC4050340 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9B4993F8281CB75100D9A441 /* MapKit.framework */,
 				65236FF0706CE8AAE445F049 /* Pods_WeatherForecast2.framework */,
 			);
 			name = Frameworks;
@@ -105,6 +113,8 @@
 				9B5DE2E3281AAD6400835636 /* CustomCollectionViewCell.swift */,
 				9B5DE2EF281AE18800835636 /* HourlyCollectionViewCell.swift */,
 				9B5DE2F1281B211400835636 /* SettingsViewController.swift */,
+				9B4993F6281CB2AC00D9A441 /* MapViewController.swift */,
+				9B4993FA281CBE2D00D9A441 /* MyAnnotation.swift */,
 			);
 			path = WeatherForecast2;
 			sourceTree = "<group>";
@@ -225,8 +235,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BF394632814C35000BB22EA /* Model.swift in Sources */,
+				9B4993FB281CBE2D00D9A441 /* MyAnnotation.swift in Sources */,
 				9B5DE2E4281AAD6400835636 /* CustomCollectionViewCell.swift in Sources */,
 				9B5DE2F0281AE18800835636 /* HourlyCollectionViewCell.swift in Sources */,
+				9B4993F7281CB2AC00D9A441 /* MapViewController.swift in Sources */,
 				9B5DE2F2281B211400835636 /* SettingsViewController.swift in Sources */,
 				9BF3944F2814C01500BB22EA /* ViewController.swift in Sources */,
 				9BF394652814D0F400BB22EA /* Network.swift in Sources */,
