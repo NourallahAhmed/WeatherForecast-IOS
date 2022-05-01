@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B3F6BE0281E3AC8007CC857 /* draft codes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3F6BDF281E3AC8007CC857 /* draft codes.swift */; };
 		9B4993F7281CB2AC00D9A441 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4993F6281CB2AC00D9A441 /* MapViewController.swift */; };
 		9B4993F9281CB75100D9A441 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4993F8281CB75100D9A441 /* MapKit.framework */; };
 		9B4993FB281CBE2D00D9A441 /* MyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4993FA281CBE2D00D9A441 /* MyAnnotation.swift */; };
@@ -29,6 +30,7 @@
 		27C4D0B957E1DAD61C2E9C46 /* Pods-WeatherForecast2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast2.debug.xcconfig"; path = "Target Support Files/Pods-WeatherForecast2/Pods-WeatherForecast2.debug.xcconfig"; sourceTree = "<group>"; };
 		65236FF0706CE8AAE445F049 /* Pods_WeatherForecast2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherForecast2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71A661C61BD6901852D3A441 /* Pods-WeatherForecast2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherForecast2.release.xcconfig"; path = "Target Support Files/Pods-WeatherForecast2/Pods-WeatherForecast2.release.xcconfig"; sourceTree = "<group>"; };
+		9B3F6BDF281E3AC8007CC857 /* draft codes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "draft codes.swift"; sourceTree = "<group>"; };
 		9B4993F6281CB2AC00D9A441 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		9B4993F8281CB75100D9A441 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9B4993FA281CBE2D00D9A441 /* MyAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAnnotation.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				9B5DE2F1281B211400835636 /* SettingsViewController.swift */,
 				9B4993F6281CB2AC00D9A441 /* MapViewController.swift */,
 				9B4993FA281CBE2D00D9A441 /* MyAnnotation.swift */,
+				9B3F6BDF281E3AC8007CC857 /* draft codes.swift */,
 			);
 			path = WeatherForecast2;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				9BF3944B2814C01500BB22EA /* AppDelegate.swift in Sources */,
 				9BF394612814C09700BB22EA /* DaysTableViewCell.swift in Sources */,
 				9BF3944D2814C01500BB22EA /* SceneDelegate.swift in Sources */,
+				9B3F6BE0281E3AC8007CC857 /* draft codes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

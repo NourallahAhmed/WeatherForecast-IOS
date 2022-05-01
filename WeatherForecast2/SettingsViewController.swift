@@ -110,11 +110,15 @@ class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPicker
             switch tempunit[row] {
             case "Fahrenheit":
                 myUsetDefaults?.set("imperial", forKey: "tempUnit")
+                myUsetDefaults?.set("unitsign", forKey: "F")
             case "Celsius":
                 myUsetDefaults?.set("metric", forKey: "tempUnit")
+                myUsetDefaults?.set("unitsign", forKey: "C")
             default:
                 myUsetDefaults?.set("standard", forKey: "tempUnit")
+                myUsetDefaults?.set("unitsign", forKey: "K")
             }
+            print("form settings\(myUsetDefaults?.object(forKey: "unitsign"))")
 
         }
     }
