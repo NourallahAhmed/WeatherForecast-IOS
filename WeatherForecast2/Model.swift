@@ -11,20 +11,13 @@ import Foundation
 class Reponse : Codable {
     let lat: Double?
     let lon: Double?
+   
     let timezone: String?
     let timezoneOffset: Int?
     let current: Current?
     let hourly: [Hourly]?
     let daily: [Daily]?
-    private enum CodingKeys: String, CodingKey {
-        case lat = "lat"
-        case lon = "lon"
-        case timezone = "timezone"
-        case timezoneOffset = "timezone_offset"
-        case current = "current"
-        case hourly = "hourly"
-        case daily = "daily"
-    }
+
 }
 
 class Alerts : Decodable{
@@ -36,37 +29,26 @@ class Alerts : Decodable{
     var tags : [String]?
 }
 class Current : Codable  {
-    let dt: Int?
+//    let dt: Int?
     let sunrise: Int?
     let sunset: Int?
     let temp: Double?
     let feelsLike: Double?
+//    let feelsLike: String?
+
     let pressure: Int?
     let humidity: Int?
     let dewPoint: Double?
+//    let uvi: String?
     let uvi: Double?
+
     let clouds: Int?
     let visibility: Int?
     let windSpeed: Double?
+//    let windSpeed: String?
+
     let windDeg: Int?
-    let weather: [Weather]?
-    private enum CodingKeys: String, CodingKey {
-        case dt = "dt"
-        case sunrise = "sunrise"
-        case sunset = "sunset"
-        case temp = "temp"
-        case feelsLike = "feels_like"
-        case pressure = "pressure"
-        case humidity = "humidity"
-        case dewPoint = "dew_point"
-        case uvi = "uvi"
-        case clouds = "clouds"
-        case visibility = "visibility"
-        case windSpeed = "wind_speed"
-        case windDeg = "wind_deg"
-        case weather = "weather"
-    }
-    
+    let weather: [Weather]?    
 }
 
 class Weather :Codable{
@@ -78,19 +60,19 @@ class Weather :Codable{
 
 class Hourly :Codable {
     let dt: Double?
-    let temp: Double?
-    let feelsLike: Double?
-    let pressure: Int?
-    let humidity: Int?
-    let dewPoint: Double?
-    let uvi: Double?
-    let clouds: Int?
-    let visibility: Int?
-    let windSpeed: Double?
-    let windDeg: Int?
-    let windGust: Double?
-    let weather: [Weather]?
-    let pop: Int?
+//    let temp: String?
+//    let feelsLike: String?
+//    let pressure: Int?
+//    let humidity: Int?
+//    let dewPoint: String?
+//    let uvi: Double?
+//    let clouds: Int?
+//    let visibility: Int?
+//    let windSpeed: String?
+//    let windDeg: String?
+//    let windGust: Double?
+//    let weather: [Weather]?
+//    let pop: Int?
 
 
 }
@@ -132,4 +114,10 @@ class FeelsLike : Codable{
      let night: Double?
      let eve: Double?
      let morn: Double?
+    
+//    let day: String?
+//    let night: String?
+//    let eve: String?
+//    let morn: String?
 }
+
