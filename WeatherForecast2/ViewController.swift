@@ -23,14 +23,14 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     
     @IBOutlet weak var myHourlyCollection: UICollectionView!
     var mydays : [Daily]?
-    var myhourly : [Hourly] = []
+    var myhourly : [Hourly]?
     var current : Current?
     var myresponse : Reponse?
     var myUserDefault = UserDefaults.standard
     var unit :String?
     var unitsign :String?
-    var lat : Double?
-    var lon : Double?
+    var lat : String?
+    var lon : String?
     override func viewDidLoad() {
         super.viewDidLoad()
       
@@ -44,15 +44,15 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         //to display -> pressure and windspeed and so on
         myCollection.delegate = self
         myCollection.dataSource = self
-        
-        
+//        myCollection.layoutIfNeeded()
+
         //to display -> the temp each hour (( will be displayed horizontaly ))
         myHourlyCollection.delegate = self
         myHourlyCollection.dataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
-         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height +  myCollection.contentSize.height)
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height +  myCollection.contentSize.height)
         getDataFromUserDefault()
         sendRequest()
         myTable.delegate = self
@@ -67,12 +67,12 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         unit = (unit == nil) ?  "standard" :  unit
         
         //lat and lon
-        lat =  31.205753
-        lon = 29.924526
-//        lat =  myUserDefault.double(forKey: "lat")
-//        lon =  myUserDefault.double(forKey: "lon")
+//        lat =  31.205753
+//        lon = 29.924526
+        lat =  myUserDefault.double(forKey: "lat").description
+        lon =  myUserDefault.double(forKey: "lon").description
 
-        print("lat : \(String(describing: lat))  lon : \(String(describing: lon))")
+        print("lat : \(lat)  lon : \(lon)")
         /*
         For temperature in Fahrenheit use units=imperial
         For temperature in Celsius use units=metric
@@ -126,14 +126,14 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                         self?.mydays = result.daily
 
                         //MARK : problem in hourly class
-//                        self.myhourly = result.hourly ?? []
+                        self?.myhourly = result.hourly
+                        
 //                        print("hourly \(String(describing: result.hourly?.first))")
                         
                         //reload data
                         self?.myTable.reloadData() // daily
 //                        self?.myTable.layoutIfNeeded()
                         self?.myHourlyCollection.reloadData() //hourly
-//                        self?.myCollection.layoutIfNeeded()
                         print("finish")
                         
                     }
@@ -202,7 +202,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
          func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //         print("collection!")
             if collectionView == myHourlyCollection {
-                return self.myhourly.count ?? 0
+                return self.myhourly?.count ?? 0
             }
             else{
                 return 6
