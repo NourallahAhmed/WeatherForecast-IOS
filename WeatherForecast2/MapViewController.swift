@@ -46,6 +46,16 @@ class MapViewController: UIViewController , MKMapViewDelegate ,CLLocationManager
         
     }
     
+    @IBAction func doneBtn(_ sender: Any) {
+        
+        print("okay")
+        //userdefaults to save them
+        print("Lat : \(String(describing: lat)) \n Lon : \(String(describing: lon))")
+        myUsetDefaults?.set(lat, forKey: "lat")
+        myUsetDefaults?.set(lon, forKey: "lon")
+
+        navigationController?.popViewController(animated: true)
+    }
     
     @IBAction func click(_ sender: UITapGestureRecognizer) {
     
@@ -69,17 +79,6 @@ class MapViewController: UIViewController , MKMapViewDelegate ,CLLocationManager
     
     }
     
-    
-    @IBAction func done(_ sender: Any) {
- 
-        print("okay")
-        //userdefaults to save them
-        print("Lat : \(String(describing: lat)) \n Lon : \(String(describing: lon))")
-        myUsetDefaults?.set(lat, forKey: "lat")
-        myUsetDefaults?.set(lon, forKey: "lon")
-
-        navigationController?.popViewController(animated: true)
-    }
    
 
     

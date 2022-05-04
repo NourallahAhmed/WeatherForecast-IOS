@@ -111,7 +111,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         // MARK: ALAMOFIRE
         
         //assign parameters
-        let parameters = ["lon": lon! , "lat": lat! ,"appid": "00cc0edd6a289076e66954faceaf9259" ,"unit": unit!] as [String : Any]
+        let parameters = ["lon": lon! , "lat": lat! ,"appid": "00cc0edd6a289076e66954faceaf9259" ,"units": unit!] as [String : Any]
         print("laaaat \(String(describing: parameters["lon"]))")
         
         AF.request("https://api.openweathermap.org/data/2.5/onecall?",parameters: parameters)
@@ -138,7 +138,6 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                         
                         //MARK : problem in hourly class
                         self?.myhourly = result.hourly
-                        print("hourly count = \(self?.myhourly)")
 
                         //reload data
                         self?.myTable.reloadData() // daily
@@ -180,14 +179,14 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
           
             let tdate = Date(timeIntervalSince1970: TimeInterval(mydays?[indexPath.row].dt ?? 0.0 ))
             let formatter = DateFormatter()
-//            formatter.timeZone = TimeZone(abbreviation: "UTC")
-            formatter.dateFormat = "MM-dd"
-//             formatter.dateFormat = "yyyy-MM-dd"
+            //formatter.timeZone = TimeZone(abbreviation: "UTC")
+            formatter.dateFormat = "EE" //"HH:mm"
+            //formatter.dateFormat = "yyyy-MM-dd"
             cell.dayLabel.text = formatter.string(from: tdate)
 
             // MARK:- Temp  and Desc
             let tempresult =  mydays?[indexPath.row].temp?.max
-            cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + unitsign! ?? "nil"
+            cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + unitsign!
             cell.descLabel.text = weather?.description ?? "nil"
             
             // MARK:- Icon
@@ -197,6 +196,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
             let image = UIImage(named: "default.png")
             cell.dayImage?.image = image
             cell.dayImage?.kf.setImage(with:  url, placeholder: image , options: nil, progressBlock: nil)
+            
             return cell
         }
         
@@ -232,7 +232,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                 
                 cell.myImage.image = UIImage(named: "cloud.jpeg")
                 cell.myLabel.text = myData[indexPath.row]
-                cell.myDataLabel.text = String(format: "%.2d", self.current?.clouds ?? " ")
+                cell.myDataLabel.text = String(format: "%.2d", self.current?.clouds ?? " ") + " %"
                 break
             case "Pressure":
                 print(myData[indexPath.row])
@@ -240,28 +240,28 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                 cell.myImage.image = UIImage(named: "pressure.jpeg")
                 cell.myLabel.text = myData[indexPath.row]
                 let pressure = self.current?.pressure
-                cell.myDataLabel.text = String(format: "%.2d", pressure ?? "nil" )
+                cell.myDataLabel.text = String(format: "%.2d", pressure ?? "nil" ) + " hpa"
                 break
             case "Humidity":
                 print(myData[indexPath.row])
                 
                 cell.myImage.image = UIImage(named: "drop.png")
                 cell.myLabel.text = myData[indexPath.row]
-                cell.myDataLabel.text = String(format: "%.2d", self.current?.humidity ?? " ")
+                cell.myDataLabel.text = String(format: "%.2d", self.current?.humidity ?? " ") + " %"
                 break
             case "Wind":
                 print(myData[indexPath.row])
                 
                 cell.myImage.image = UIImage(named: "wind.jpeg")
                 cell.myLabel.text = myData[indexPath.row]
-                cell.myDataLabel.text = String(format: "%.2f", self.current?.windSpeed ?? " ")
+                cell.myDataLabel.text = String(format: "%.2f", self.current?.windSpeed ?? " ") + " m/s"
                 break
             case "UltraViolet":
                 print(myData[indexPath.row])
                 
                 cell.myImage.image = UIImage(named: "ultrviolt.jpeg")
                 cell.myLabel.text = myData[indexPath.row]
-                cell.myDataLabel.text = String(format: "%.2f", self.current?.uvi ?? " ")
+                cell.myDataLabel.text = String(format: "%.2f", self.current?.uvi ?? " ") + "m"
                 break
             case "Visibility":
                 print(myData[indexPath.row])
@@ -282,9 +282,21 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
             print("welcome")
             let tempresult =  myhourly?[indexPath.row].temp
             print(tempresult!)
-            cell.myHourlyTempLabel.text = String(tempresult!)
-            cell.myHourlyTimeLabel.text = "\(String(describing: myhourly?[indexPath.row].dt))" //String(format: "%.2f",  hourly?[indexPath.row].dt ?? " ")
-            cell.myhourlyImageView.image = UIImage (named: "default.png")
+            //MARK:- hour
+            let tdate = Date(timeIntervalSince1970: TimeInterval(myhourly?[indexPath.row].dt ?? 0.0 ))
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm:aa"
+            cell.myHourlyTimeLabel.text = formatter.string(from: tdate)
+
+            cell.myHourlyTempLabel.text = String(tempresult!) + String(unitsign!)
+
+            let icon = myhourly?[indexPath.row].weather?.first?.icon ?? "nil"
+            print("theIcon : \(icon)")
+            let url = URL(string: "http://openweathermap.org/img/wn/\(icon)@2x.png")
+            let image = UIImage(named: "default.png")
+            cell.myhourlyImageView?.image = image
+            cell.myhourlyImageView?.kf.setImage(with:  url, placeholder: image , options: nil, progressBlock: nil)
+            
             
             return cell
         }
@@ -293,16 +305,17 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var collectionViewSize = collectionView.frame.size
-        if collectionView == myCollection {
-            collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
-            //            collectionViewSize.height = collectionViewSize.height/4.0
-        }
-        return collectionViewSize
-    }
-    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        var collectionViewSize = collectionView.frame.size
+//        if collectionView == myCollection {
+//            collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
+//            //            collectionViewSize.height = collectionViewSize.height/4.0
+//        }
+//        return collectionViewSize
+//    }
+//    
     
 }
+
 
 

@@ -125,3 +125,22 @@ import Foundation
        
        
  */
+/*
+ //MARK:- try to download again
+ 
+ guard let newUrl=url else {
+     return cell
+ }
+ DispatchQueue.global(qos: .userInteractive).async {
+     do{
+         let data = try Data(contentsOf: newUrl)
+         DispatchQueue.main.async { [weak self] in
+             cell.dayImage.image = UIImage(data: data)
+             
+         }
+         
+     }catch{
+         
+     }
+ }
+ */
