@@ -33,7 +33,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     var lon : String?
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
         //set the size of scrollView
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + myCollection.contentSize.height)
         
@@ -44,40 +44,50 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         //to display -> pressure and windspeed and so on
         myCollection.delegate = self
         myCollection.dataSource = self
-//        myCollection.layoutIfNeeded()
-
+        //        myCollection.layoutIfNeeded()
+        
         //to display -> the temp each hour (( will be displayed horizontaly ))
         myHourlyCollection.delegate = self
         myHourlyCollection.dataSource = self
+
     }
     
+    
+    // MARK: VIEW DID APPEAR
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height +  myCollection.contentSize.height)
         getDataFromUserDefault()
         sendRequest()
         myTable.delegate = self
         myTable.dataSource = self
+        //to display -> pressure and windspeed and so on
+        myCollection.delegate = self
+        myCollection.dataSource = self
+        
+        //to display -> the temp each hour (( will be displayed horizontaly ))
+        myHourlyCollection.delegate = self
+        myHourlyCollection.dataSource = self
+        print("ViewDidAppear")
+//        myCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
+
     }
     
-    //Mark :  ---------------------------> Data from user default <---------------------------
+    // MARK: DATA FROM USERDEFAULTS
     
     func getDataFromUserDefault(){
         //unit
         unit = myUserDefault.object(forKey: "tempUnit")  as? String
         unit = (unit == nil) ?  "standard" :  unit
         
-        //lat and lon
-//        lat =  31.205753
-//        lon = 29.924526
         lat =  myUserDefault.double(forKey: "lat").description
         lon =  myUserDefault.double(forKey: "lon").description
-
-        print("lat : \(lat)  lon : \(lon)")
+        
+        print("lat : \(lat)  lon : \(String(describing: lon))")
         /*
-        For temperature in Fahrenheit use units=imperial
-        For temperature in Celsius use units=metric
-        Temperature in Kelvin is used by default, no need to use units parameter in API call
-        */
+         For temperature in Fahrenheit use units=imperial
+         For temperature in Celsius use units=metric
+         Temperature in Kelvin is used by default, no need to use units parameter in API call
+         */
         switch unit {
         case "imperial":
             unitsign = "F"
@@ -88,7 +98,8 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
             unitsign = "K"
         }
     }
-    // network
+    // MARK: DATA FROM NETWORK
+
     func sendRequest() {
         //NetworkIndecator
         let myIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
@@ -97,7 +108,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         myIndicator.startAnimating()
         
         
-        // Mark : ---------------------------> trying AlamoFire <---------------------------
+        // MARK: ALAMOFIRE
         
         //assign parameters
         let parameters = ["lon": lon! , "lat": lat! ,"appid": "00cc0edd6a289076e66954faceaf9259" ,"unit": unit!] as [String : Any]
@@ -105,7 +116,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         
         AF.request("https://api.openweathermap.org/data/2.5/onecall?",parameters: parameters)
             .responseJSON(completionHandler:{[weak self] response in
-               
+                
                 //get request on type data
                 guard let reponse = response.data else {
                     return
@@ -122,18 +133,17 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                         self?.currentTempLabel.text = String(format: "%.2f", ctemp ?? " ") + String( (self?.unitsign)!)
                         
                         self?.current = result.current
-
+                        
                         self?.mydays = result.daily
-
+                        
                         //MARK : problem in hourly class
                         self?.myhourly = result.hourly
-                        
-//                        print("hourly \(String(describing: result.hourly?.first))")
-                        
+                        print("hourly count = \(self?.myhourly)")
+
                         //reload data
                         self?.myTable.reloadData() // daily
-//                        self?.myTable.layoutIfNeeded()
                         self?.myHourlyCollection.reloadData() //hourly
+                        self?.myCollection.reloadData()
                         print("finish")
                         
                     }
@@ -141,112 +151,158 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                 catch let error{
                     print("error : \(error.localizedDescription)")
                 }
-        
-    
+                
+                
             })
+        
+        
+    }
+    
+    
+    // MARK: --------------------------->  Table <---------------------------
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var theReturn = 0
+        if tableView == myTable{
+            theReturn = mydays?.count ?? 0
+        }
+        return theReturn
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DaysTableViewCell {
+            
+            let weather  : Weather?
+            weather = (mydays?[indexPath.row].weather)?.first
+      
+        
+            //MARK:- DAY
+          
+            let tdate = Date(timeIntervalSince1970: TimeInterval(mydays?[indexPath.row].dt ?? 0.0 ))
+            let formatter = DateFormatter()
+//            formatter.timeZone = TimeZone(abbreviation: "UTC")
+            formatter.dateFormat = "MM-dd"
+//             formatter.dateFormat = "yyyy-MM-dd"
+            cell.dayLabel.text = formatter.string(from: tdate)
 
-   
-}
-        
-        
-        // Mark: --------------------------->  Table <---------------------------
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            var theReturn = 0
-            if tableView == myTable{
-                theReturn = mydays?.count ?? 0
-            }
-            return theReturn
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            // MARK:- Temp  and Desc
+            let tempresult =  mydays?[indexPath.row].temp?.max
+            cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + unitsign! ?? "nil"
+            cell.descLabel.text = weather?.description ?? "nil"
             
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DaysTableViewCell {
-                
-                let weather  : Weather?
-                weather = (mydays?[indexPath.row].weather)?.first
-                // Create Date
-                //let date = NSDate(timeIntervalSince1970: (mydays?[indexPath.row].dt) ?? 000000 )
-                // Create Date Formatter
-                let dateFormatter = DateFormatter()
-                // Set Date Format
-                dateFormatter.dateFormat = "YY/MM/dd"
-                // Convert Date to String
-                //dateFormatter.string(from: date as Date)
-                //print("date \(date)")
-//                cell.dayLabel.text = date as? String
-                
-                // Mark:- Temp  and Desc
-                let tempresult =  mydays?[indexPath.row].temp?.max
-                cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + unitsign! ?? "nil"
-                cell.descLabel.text = weather?.description ?? "nil"
-                
-                // Mark:- Icon
-                let icon = weather?.icon ?? "nil"
-                print("theIcon : \(icon)")
-                let url = URL(string: "http://openweathermap.org/img/wn/\(icon)@2x.png")
-                let image = UIImage(named: "default.png")
-                cell.dayImage?.image = image
-                cell.dayImage?.kf.setImage(with:  url, placeholder: image , options: nil, progressBlock: nil)
-                return cell
-                
-            }
-            
-            return UITableViewCell()
-            
-        }
-        
-        
-        
-         //Mark : ---------------------------> Collection <---------------------------
-         
-         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//         print("collection!")
-            if collectionView == myHourlyCollection {
-                return self.myhourly?.count ?? 0
-            }
-            else{
-                return 6
-            }
-         
-         }
-         
-         
-         
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        print("almost there")
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as? CustomCollectionViewCell{
-//            print("okay")
-            cell.myImage.image = UIImage(named: "pressure.jpeg")
-            cell.myLabel.text = "clouds"
-            cell.myDataLabel.text = "90"
+            // MARK:- Icon
+            let icon = weather?.icon ?? "nil"
+            print("theIcon : \(icon)")
+            let url = URL(string: "http://openweathermap.org/img/wn/\(icon)@2x.png")
+            let image = UIImage(named: "default.png")
+            cell.dayImage?.image = image
+            cell.dayImage?.kf.setImage(with:  url, placeholder: image , options: nil, progressBlock: nil)
             return cell
-
         }
-
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hourcell", for: indexPath) as? HourlyCollectionViewCell{
+        
+        return UITableViewCell()
+        
+    }
+    
+    
+    
+    //MARK: ---------------------------> Collection <---------------------------
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == myCollection {
+            return 6
+        }
+        else{
+            print("start")
+            return self.myhourly?.count ?? 0
+        }
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("hello from collectionView cell for item ar")
+        if( collectionView == myCollection){
+         let cell = myCollection.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as! CustomCollectionViewCell
+            
+            let myData = ["Clouds" ,"Pressure" , "Humidity", "Wind","UltraViolet","Visibility"]
+            switch myData[indexPath.row]{
+                
+            case "Clouds":
+                print(myData[indexPath.row])
+                
+                cell.myImage.image = UIImage(named: "cloud.jpeg")
+                cell.myLabel.text = myData[indexPath.row]
+                cell.myDataLabel.text = String(format: "%.2d", self.current?.clouds ?? " ")
+                break
+            case "Pressure":
+                print(myData[indexPath.row])
+                
+                cell.myImage.image = UIImage(named: "pressure.jpeg")
+                cell.myLabel.text = myData[indexPath.row]
+                let pressure = self.current?.pressure
+                cell.myDataLabel.text = String(format: "%.2d", pressure ?? "nil" )
+                break
+            case "Humidity":
+                print(myData[indexPath.row])
+                
+                cell.myImage.image = UIImage(named: "drop.png")
+                cell.myLabel.text = myData[indexPath.row]
+                cell.myDataLabel.text = String(format: "%.2d", self.current?.humidity ?? " ")
+                break
+            case "Wind":
+                print(myData[indexPath.row])
+                
+                cell.myImage.image = UIImage(named: "wind.jpeg")
+                cell.myLabel.text = myData[indexPath.row]
+                cell.myDataLabel.text = String(format: "%.2f", self.current?.windSpeed ?? " ")
+                break
+            case "UltraViolet":
+                print(myData[indexPath.row])
+                
+                cell.myImage.image = UIImage(named: "ultrviolt.jpeg")
+                cell.myLabel.text = myData[indexPath.row]
+                cell.myDataLabel.text = String(format: "%.2f", self.current?.uvi ?? " ")
+                break
+            case "Visibility":
+                print(myData[indexPath.row])
+                
+                cell.myImage.image = UIImage(named: "visible.jpeg")
+                cell.myLabel.text = myData[indexPath.row]
+                cell.myDataLabel.text = String(format: "%.2d", self.current?.visibility ?? " ")
+                break
+            default: break
+                
+                
+            }
+            return cell
+            
+        }
+        else if let cell = myHourlyCollection.dequeueReusableCell(withReuseIdentifier: "hourcell", for: indexPath) as? HourlyCollectionViewCell{
             
             print("welcome")
-//            let tempresult =  myhourly[indexPath.row].temp
-//            cell.myHourlyTempLabel.text = "\(tempresult) \(unitsign)" ?? "nil"// String(format: "%.2f", tempresult ?? "nil" ) + unitsign
-//            cell.myHourlyTimeLabel.text = "\(myhourly[indexPath.row].dt)" ?? "nil" //String(format: "%.2f",  hourly?[indexPath.row].dt ?? " ")
+            let tempresult =  myhourly?[indexPath.row].temp
+            print(tempresult!)
+            cell.myHourlyTempLabel.text = String(tempresult!)
+            cell.myHourlyTimeLabel.text = "\(String(describing: myhourly?[indexPath.row].dt))" //String(format: "%.2f",  hourly?[indexPath.row].dt ?? " ")
             cell.myhourlyImageView.image = UIImage (named: "default.png")
             
             return cell
         }
-     return UICollectionViewCell()
-    }
          
+        return UICollectionViewCell()
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var collectionViewSize = collectionView.frame.size
         if collectionView == myCollection {
             collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
-//            collectionViewSize.height = collectionViewSize.height/4.0
-            }
+            //            collectionViewSize.height = collectionViewSize.height/4.0
+        }
         return collectionViewSize
     }
-         
-        
+    
+    
 }
 
 

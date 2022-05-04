@@ -11,7 +11,6 @@ import Foundation
 class Reponse : Codable {
     let lat: Double?
     let lon: Double?
-   
     let timezone: String?
     let timezoneOffset: Int?
     let current: Current?
@@ -29,24 +28,18 @@ class Alerts : Decodable{
     var tags : [String]?
 }
 class Current : Codable  {
-//    let dt: Int?
+    let dt: Int?
     let sunrise: Int?
     let sunset: Int?
     let temp: Double?
     let feelsLike: Double?
-//    let feelsLike: String?
-
     let pressure: Int?
     let humidity: Int?
     let dewPoint: Double?
-//    let uvi: String?
     let uvi: Double?
-
     let clouds: Int?
     let visibility: Int?
     let windSpeed: Double?
-//    let windSpeed: String?
-
     let windDeg: Int?
     let weather: [Weather]?    
 }
@@ -60,19 +53,19 @@ class Weather :Codable{
 
 class Hourly :Codable {
     let dt: Double?
-//    let temp: String?
-//    let feelsLike: String?
-//    let pressure: Int?
-//    let humidity: Int?
-//    let dewPoint: String?
-//    let uvi: Double?
-//    let clouds: Int?
-//    let visibility: Int?
-//    let windSpeed: String?
-//    let windDeg: String?
-//    let windGust: Double?
-//    let weather: [Weather]?
-//    let pop: Int?
+    let temp: Double?
+    let feels_like: Double?
+    let pressure: Int?
+    let humidity: Int?
+    let dew_point: Double?
+    let uvi: Double?
+    let clouds: Int?
+    let visibility: Int?
+    let wind_speed: Double?
+    let wind_deg: Double?
+    let wind_gust: Double?
+    let weather: [Weather]?
+    let pop: Int?
 
 
 }
