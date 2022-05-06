@@ -41,11 +41,11 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         //set the size of scrollView
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + myCollection.contentSize.height)
         print(myUserDefaults?.double(forKey: "lat"))
-        if((myUserDefaults?.double(forKey: "lat")) != 0.0){
-            getDataFromUserDefault()
-            sendRequest()
-            
-        }
+//        if(myUserDefaults?.double(forKey: "lat") != 0.0){
+//            getDataFromUserDefault()
+//            sendRequest()
+//            
+//        }
         myTable.delegate = self
         myTable.dataSource = self
         //to display -> pressure and windspeed and so on
@@ -67,7 +67,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         getDataFromUserDefault()
         
         if(myUserDefaults?.double(forKey: "lat") == 0.0){
-        let alert : UIAlertController = UIAlertController(title: "options", message: "get Location", preferredStyle: .alert)
+        let alert : UIAlertController = UIAlertController(title: "Settings", message: "How to set your Location", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "MAP", style: .default, handler: {action  in
             let mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
             self.navigationController?.pushViewController(mapScreen, animated: true)
@@ -148,7 +148,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                     //                    print("request \(response.value)")
                     let result = try JSONDecoder().decode(Reponse.self, from: reponse)
                     print( result.timezone)
-                    
+                    myIndicator.stopAnimating()
                     DispatchQueue.main.async {
                         myIndicator.stopAnimating()
                         self?.timeZoneLabel.text = result.timezone
@@ -168,9 +168,13 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                         self?.myTable.reloadData() // daily
                         self?.myHourlyCollection.reloadData() //hourly
                         self?.myCollection.reloadData()
+                        myIndicator.stopAnimating()
+
                         print("finish")
                         
                     }
+                    myIndicator.stopAnimating()
+
                 }
                 catch let error{
                     print("error : \(error.localizedDescription)")
