@@ -8,7 +8,7 @@
 
 import Foundation
 // unitsign
-        
+//        https://api.openweathermap.org/data/2.5/onecall?lat=40.759211&lon=-73.984638&appid=00cc0edd6a289076e66954faceaf9259&units=\(unit)
 /*
         unitsign = myUserDefault?.object(forKey: "unitsign") as? String
         print("unitsign = \(String(describing: unitsign))")

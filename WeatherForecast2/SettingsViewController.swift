@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import CoreLocation
 
-class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPickerViewDataSource {
+class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPickerViewDataSource, CLLocationManagerDelegate {
     
     
     
     @IBOutlet weak var unitPicker: UIPickerView!
     @IBOutlet weak var locationPicker: UIPickerView!
-    
+    let locationManager = CLLocationManager()
+
     var tempunit = ["Kelvin" , "Celsius" , "Fahrenheit"]
     var location = ["Map","GPS"]
     var myUsetDefaults : UserDefaults?
@@ -36,7 +38,7 @@ class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPicker
         //manage the size
         unitPicker.translatesAutoresizingMaskIntoConstraints = false
         locationPicker.translatesAutoresizingMaskIntoConstraints = false
-
+        
     }
     
     
@@ -92,12 +94,29 @@ class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPicker
         if pickerView == locationPicker {
             print("selected \(location[row])")
             if row == 0 {
-            var mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
+                let mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
                 self.navigationController?.pushViewController(mapScreen, animated: true)
                 myUsetDefaults?.set(location[row], forKey: "location")
             }else{
+                //GPS
+               
+                print("Else :GPS")
+                locationManager.requestAlwaysAuthorization()
+                locationManager.delegate = self
+                // For use when the app is open
+                locationManager.requestWhenInUseAuthorization()
+                // If location services is enabled get the users location
+                if CLLocationManager.locationServicesEnabled() {
+                    print("Allowed")
+                    locationManager.startUpdatingLocation()
+                    print("start")
+//                    locationManager.requestLocation()
+            
+                }
+                
+               
                 myUsetDefaults?.set(location[row], forKey: "location")
-
+                
             }
         }
         else if pickerView == unitPicker{
@@ -119,7 +138,7 @@ class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPicker
                 myUsetDefaults?.set("unitsign", forKey: "K")
             }
             print("form settings\(myUsetDefaults?.object(forKey: "unitsign"))")
-
+            
         }
     }
     
@@ -133,4 +152,65 @@ class SettingsViewController: UIViewController , UIPickerViewDelegate , UIPicker
      }
      */
     
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+       if let error = error as? CLError, error.code == .denied {
+        print("error in getting location \(error.localizedDescription)")
+          // Location updates are not authorized.
+          manager.stopUpdatingLocation()
+          return
+       }
+        print("no Errors")
+       // Notify the user of any errors.
+    }
+
+    
+    
+    // Print out the location to the console
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("didUpdateLocations")
+        print(location.first)
+        if let location = locations.first {
+            print("getting")
+            print(location.coordinate.latitude)
+            print(location.coordinate.longitude)
+            myUsetDefaults?.set(location.coordinate.latitude, forKey: "lat")
+            myUsetDefaults?.set(location.coordinate.longitude, forKey: "lon")
+
+        }
+        else{
+            print("not working")
+        }
+    }
+    
+    /*
+    // If we have been deined access give the user the option to change it
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("didChangeAuthorization")
+        if(status == CLAuthorizationStatus.denied) {
+            showLocationDisabledPopUp()
+        }
+    }
+    
+    // Show the popup to the user if we have been deined access
+    func showLocationDisabledPopUp() {
+        let alertController = UIAlertController(title: "Background Location Access Disabled",
+                                                message: "In order to get the Weather Info we need your location",
+                                                preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alertController.addAction(openAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }*/
+
+
+
 }

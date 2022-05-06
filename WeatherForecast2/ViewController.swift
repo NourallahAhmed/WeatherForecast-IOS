@@ -9,9 +9,9 @@
 import UIKit
 import Alamofire
 import Kingfisher
+import CoreLocation
 
-
-class ViewController: UIViewController , UITableViewDataSource ,UICollectionViewDataSource, UITableViewDelegate , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+class ViewController: UIViewController , UITableViewDataSource ,UICollectionViewDataSource, UITableViewDelegate , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout , CLLocationManagerDelegate {
     @IBOutlet weak var myCollection: UICollectionView!
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -22,6 +22,9 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     @IBOutlet weak var currentTempLabel: UILabel!
     
     @IBOutlet weak var myHourlyCollection: UICollectionView!
+    let locationManager = CLLocationManager()
+    
+    var myUserDefaults : UserDefaults?
     var mydays : [Daily]?
     var myhourly : [Hourly]?
     var current : Current?
@@ -34,11 +37,15 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        myUserDefaults = UserDefaults.standard
         //set the size of scrollView
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + myCollection.contentSize.height)
-        
-        getDataFromUserDefault()
-        sendRequest()
+        print(myUserDefaults?.double(forKey: "lat"))
+        if((myUserDefaults?.double(forKey: "lat")) != 0.0){
+            getDataFromUserDefault()
+            sendRequest()
+            
+        }
         myTable.delegate = self
         myTable.dataSource = self
         //to display -> pressure and windspeed and so on
@@ -49,7 +56,8 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         //to display -> the temp each hour (( will be displayed horizontaly ))
         myHourlyCollection.delegate = self
         myHourlyCollection.dataSource = self
-
+        
+        
     }
     
     
@@ -57,6 +65,20 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height +  myCollection.contentSize.height)
         getDataFromUserDefault()
+        
+        if(myUserDefaults?.double(forKey: "lat") == 0.0){
+        let alert : UIAlertController = UIAlertController(title: "options", message: "get Location", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "MAP", style: .default, handler: {action  in
+            let mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
+            self.navigationController?.pushViewController(mapScreen, animated: true)
+            print("MAP")
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "GPS", style: .default, handler: {action  in self.getLocationGPS()} ))
+        
+        self.present(alert , animated: true , completion: nil)
+        }
         sendRequest()
         myTable.delegate = self
         myTable.dataSource = self
@@ -68,8 +90,8 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         myHourlyCollection.delegate = self
         myHourlyCollection.dataSource = self
         print("ViewDidAppear")
-//        myCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
-
+        //        myCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
+        
     }
     
     // MARK: DATA FROM USERDEFAULTS
@@ -99,7 +121,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         }
     }
     // MARK: DATA FROM NETWORK
-
+    
     func sendRequest() {
         //NetworkIndecator
         let myIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
@@ -123,7 +145,10 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                 }
                 do {
                     print("inside the do")
+                    //                    print("request \(response.value)")
                     let result = try JSONDecoder().decode(Reponse.self, from: reponse)
+                    print( result.timezone)
+                    
                     DispatchQueue.main.async {
                         myIndicator.stopAnimating()
                         self?.timeZoneLabel.text = result.timezone
@@ -138,7 +163,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
                         
                         //MARK : problem in hourly class
                         self?.myhourly = result.hourly
-
+                        
                         //reload data
                         self?.myTable.reloadData() // daily
                         self?.myHourlyCollection.reloadData() //hourly
@@ -173,17 +198,17 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
             
             let weather  : Weather?
             weather = (mydays?[indexPath.row].weather)?.first
-      
-        
+            
+            
             //MARK:- DAY
-          
+            
             let tdate = Date(timeIntervalSince1970: TimeInterval(mydays?[indexPath.row].dt ?? 0.0 ))
             let formatter = DateFormatter()
             //formatter.timeZone = TimeZone(abbreviation: "UTC")
             formatter.dateFormat = "EE" //"HH:mm"
             //formatter.dateFormat = "yyyy-MM-dd"
             cell.dayLabel.text = formatter.string(from: tdate)
-
+            
             // MARK:- Temp  and Desc
             let tempresult =  mydays?[indexPath.row].temp?.max
             cell.tempLabel.text = String(format: "%.2f", tempresult ?? "nil" ) + unitsign!
@@ -222,7 +247,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("hello from collectionView cell for item ar")
         if( collectionView == myCollection){
-         let cell = myCollection.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as! CustomCollectionViewCell
+            let cell = myCollection.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as! CustomCollectionViewCell
             
             let myData = ["Clouds" ,"Pressure" , "Humidity", "Wind","UltraViolet","Visibility"]
             switch myData[indexPath.row]{
@@ -287,9 +312,9 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm:aa"
             cell.myHourlyTimeLabel.text = formatter.string(from: tdate)
-
+            
             cell.myHourlyTempLabel.text = String(tempresult!) + String(unitsign!)
-
+            
             let icon = myhourly?[indexPath.row].weather?.first?.icon ?? "nil"
             print("theIcon : \(icon)")
             let url = URL(string: "http://openweathermap.org/img/wn/\(icon)@2x.png")
@@ -300,21 +325,59 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
             
             return cell
         }
-         
+        
         return UICollectionViewCell()
     }
     
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        var collectionViewSize = collectionView.frame.size
-//        if collectionView == myCollection {
-//            collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
-//            //            collectionViewSize.height = collectionViewSize.height/4.0
-//        }
-//        return collectionViewSize
-//    }
-//    
-    
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    //        var collectionViewSize = collectionView.frame.size
+    //        if collectionView == myCollection {
+    //            collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
+    //            //            collectionViewSize.height = collectionViewSize.height/4.0
+    //        }
+    //        return collectionViewSize
+    //    }
+    //
+    func getLocationGPS(){
+        locationManager.requestAlwaysAuthorization()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        
+        // For use when the app is open
+        locationManager.requestWhenInUseAuthorization()
+        // If location services is enabled get the users location
+        if CLLocationManager.locationServicesEnabled() {
+            print("Allowed")
+            locationManager.startUpdatingLocation()
+            print("start")
+            //                    locationManager.requestLocation()
+        }
+        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            if let error = error as? CLError, error.code == .denied {
+                print("error in getting location \(error.localizedDescription)")
+                // Location updates are not authorized.
+                manager.stopUpdatingLocation()
+                return
+            }
+            print("no Errors")
+            // Notify the user of any errors.
+        }
+        // Print out the location to the console
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+            if let location = locations.first {
+                print("getting")
+                print(location.coordinate.latitude)
+                print(location.coordinate.longitude)
+                myUserDefaults?.set(location.coordinate.latitude, forKey: "lat")
+                myUserDefaults?.set(location.coordinate.longitude, forKey: "lon")
+                
+            }
+            else{
+                print("not working")
+            }
+        }
+    }
 }
 
 

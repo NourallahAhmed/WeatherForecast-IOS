@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WeatherForecast2" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,28 +17,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0n5-Td-rxu">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xsm-4g-JKl">
-                                        <rect key="frame" x="32" y="14" width="382" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xsm-4g-JKl">
+                                        <rect key="frame" x="32" y="14" width="382" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Smt-qV-0r6">
-                                        <rect key="frame" x="32" y="46" width="382" height="25.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Smt-qV-0r6">
+                                        <rect key="frame" x="32" y="22" width="382" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzn-xJ-67t">
-                                        <rect key="frame" x="32" y="79" width="382" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jzn-xJ-67t">
+                                        <rect key="frame" x="32" y="29.5" width="382" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CYG-w4-ifL">
-                                        <rect key="frame" x="0.0" y="285" width="414" height="396"/>
+                                        <rect key="frame" x="0.0" y="205.5" width="414" height="396"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="396" id="Wn2-a7-v91"/>
@@ -93,7 +93,7 @@
                                         </prototypes>
                                     </tableView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2an-3f-zOA">
-                                        <rect key="frame" x="0.0" y="689" width="414" height="342"/>
+                                        <rect key="frame" x="0.0" y="609.5" width="414" height="342"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="342" id="Rhs-CW-NHj"/>
@@ -159,7 +159,7 @@
                                         </cells>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tOz-5O-EPR">
-                                        <rect key="frame" x="0.0" y="117" width="414" height="160"/>
+                                        <rect key="frame" x="0.0" y="37.5" width="414" height="160"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="160" id="2A8-Ah-rtW"/>
@@ -257,7 +257,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" selectedImage="house.fill" id="wqo-kX-EUm"/>
                     <navigationItem key="navigationItem" id="dxW-xb-amz"/>
                     <connections>
                         <outlet property="currentDescLabel" destination="Smt-qV-0r6" id="3Mm-nX-NDC"/>
@@ -267,11 +266,12 @@
                         <outlet property="myTable" destination="CYG-w4-ifL" id="jJw-DV-Ct3"/>
                         <outlet property="scrollView" destination="0n5-Td-rxu" id="iTR-JX-ZZW"/>
                         <outlet property="timeZoneLabel" destination="xsm-4g-JKl" id="PQ9-CM-KYO"/>
+                        <segue destination="MZi-I9-Ob3" kind="show" id="QO1-QK-cts"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1915.9420289855075" y="666.96428571428567"/>
+            <point key="canvasLocation" x="2826.0869565217395" y="666.96428571428567"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="BaS-RA-pGk">
@@ -341,7 +341,7 @@
             </objects>
             <point key="canvasLocation" x="2921.739130434783" y="-284.59821428571428"/>
         </scene>
-        <!--Map View Controller-->
+        <!--Item-->
         <scene sceneID="fvp-JL-vAb">
             <objects>
                 <viewController storyboardIdentifier="MapScreen" id="MZi-I9-Ob3" customClass="MapViewController" customModule="WeatherForecast2" customModuleProvider="target" sceneMemberID="viewController">
@@ -366,6 +366,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5vO-bg-LCY"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="D2j-4i-AQD"/>
                     <navigationItem key="navigationItem" id="UuO-De-JB9">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="Pk5-8L-evg">
                             <connections>
@@ -397,7 +398,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="vkA-1n-b2G"/>
+                        <segue destination="TkH-Uz-MHW" kind="relationship" relationship="viewControllers" id="vkA-1n-b2G"/>
                         <segue destination="dz1-Cv-hs9" kind="relationship" relationship="viewControllers" id="f7f-G9-MDS"/>
                     </connections>
                 </tabBarController>
@@ -442,9 +443,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YGC-rv-xE8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="aF9-g0-x60"/>
             </objects>
-            <point key="canvasLocation" x="3099" y="544"/>
+            <point key="canvasLocation" x="4008.6956521739135" y="543.75"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="FdI-b7-G7W">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TkH-Uz-MHW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" selectedImage="house.fill" id="wqo-kX-EUm"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4lw-Ui-tpe">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Wtp-M1-Ng4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aRf-J2-YlU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1915.9420289855075" y="666.96428571428567"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="QO1-QK-cts"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
