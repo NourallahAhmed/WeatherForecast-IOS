@@ -65,7 +65,7 @@ class Hourly :Codable {
     let wind_deg: Double?
     let wind_gust: Double?
     let weather: [Weather]?
-    let pop: Int?
+//    let pop: Int?
 
 
 }
@@ -87,7 +87,7 @@ class Daily :Codable {
     let windGust: Double?
     let weather: [Weather]?
     let clouds: Int?
-    let pop: Int?
+//    let pop: Int?
     let uvi: Double?
 
 }
