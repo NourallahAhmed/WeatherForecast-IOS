@@ -62,23 +62,27 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height +  myCollection.contentSize.height)
         getDataFromUserDefault()
         
-        if(myUserDefaults?.double(forKey: "lat") == 0.0){
+        if(myUserDefaults?.integer(forKey: "check") == 0){
              alert = UIAlertController(title: "Settings", message: "How to set your Location", preferredStyle: .alert)
             alert?.addAction(UIAlertAction(title: "MAP", style: .default, handler: {action  in
                 let mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
                 self.navigationController?.pushViewController(mapScreen, animated: true)
+                
+                self.myUserDefault.set(1, forKey: "check")
                 self.sendRequest()
                 print("MAP")
                 
             }))
             
-            alert?.addAction(UIAlertAction(title: "GPS", style: .default, handler: {action  in self.getLocationGPS()
-                self.sendRequest()
+            alert?.addAction(UIAlertAction(title: "GPS", style: .default, handler: {action  in
+                self.getLocationGPS()
+                self.myUserDefault.set(1, forKey: "check")
+
             } ))
             
             self.present(alert! , animated: true , completion: nil)
         }
-//        sendRequest()
+        sendRequest()
         myTable.delegate = self
         myTable.dataSource = self
         //to display -> pressure and windspeed and so on
@@ -117,6 +121,10 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         default:
             unitsign = "K"
         }
+        self.myTable.reloadData()
+                self.myHourlyCollection.reloadData()
+                self.myCollection.reloadData()
+                
     }
     // MARK: DATA FROM NETWORK
     
@@ -331,16 +339,20 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     }
     
     func getLocationGPS(){
-        locationManager.requestAlwaysAuthorization()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        
+        print("getLocationGPS")
+//        locationManager.requestAlwaysAuthorization()
         // For use when the app is open
         locationManager.requestWhenInUseAuthorization()
         // If location services is enabled get the users location
+        print(CLLocationManager.locationServicesEnabled() )
         if CLLocationManager.locationServicesEnabled() {
+            print("getLocationGPS")
+
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             locationManager.startUpdatingLocation()
         }
+    }
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             if let error = error as? CLError, error.code == .denied {
                 print("error in getting location \(error.localizedDescription)")
@@ -353,20 +365,24 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         }
         // Print out the location to the console
         func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
-            if let location = locations.first {
-                print("getting")
-                print(location.coordinate.latitude)
-                print(location.coordinate.longitude)
-                myUserDefaults?.set(location.coordinate.latitude, forKey: "lat")
-                myUserDefaults?.set(location.coordinate.longitude, forKey: "lon")
-                
+//            if let location = locations.first
+            guard let loc : CLLocationCoordinate2D = manager.location?.coordinate else{
+                return
             }
-            else{
-                print("not working")
-            }
+            lat = String(format: "%.2f" , loc.latitude )
+            lon = String(format: "%.2f" , loc.longitude )
+            print("from GPS \(lat)\(lon)")
+
+            myUserDefaults?.set(loc.latitude, forKey: "lat")
+            myUserDefaults?.set(loc.longitude, forKey: "lon")
+            print("Sending request")
+            self.sendRequest()
+            print("request sended")
+
+        
         }
     }
-}
+
 
 
 
