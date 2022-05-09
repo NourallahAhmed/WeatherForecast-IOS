@@ -10,6 +10,8 @@ import UIKit
 import Alamofire
 import Kingfisher
 import CoreLocation
+import Network
+
 
 class ViewController: UIViewController , UITableViewDataSource ,UICollectionViewDataSource, UITableViewDelegate , UICollectionViewDelegate, UICollectionViewDelegateFlowLayout , CLLocationManagerDelegate {
     @IBOutlet weak var myCollection: UICollectionView!
@@ -34,6 +36,8 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
     var unitsign :String?
     var lat : String?
     var lon : String?
+    
+    var alert : UIAlertController?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,23 +45,15 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         //set the size of scrollView
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + myCollection.contentSize.height)
         print(myUserDefaults?.double(forKey: "lat"))
-//        if(myUserDefaults?.double(forKey: "lat") != 0.0){
-//            getDataFromUserDefault()
-//            sendRequest()
-//            
-//        }
+   
         myTable.delegate = self
         myTable.dataSource = self
         //to display -> pressure and windspeed and so on
         myCollection.delegate = self
         myCollection.dataSource = self
-        //        myCollection.layoutIfNeeded()
-        
         //to display -> the temp each hour (( will be displayed horizontaly ))
         myHourlyCollection.delegate = self
         myHourlyCollection.dataSource = self
-        
-        
     }
     
     
@@ -67,19 +63,22 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         getDataFromUserDefault()
         
         if(myUserDefaults?.double(forKey: "lat") == 0.0){
-        let alert : UIAlertController = UIAlertController(title: "Settings", message: "How to set your Location", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "MAP", style: .default, handler: {action  in
-            let mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
-            self.navigationController?.pushViewController(mapScreen, animated: true)
-            print("MAP")
+             alert = UIAlertController(title: "Settings", message: "How to set your Location", preferredStyle: .alert)
+            alert?.addAction(UIAlertAction(title: "MAP", style: .default, handler: {action  in
+                let mapScreen =  self.storyboard?.instantiateViewController(identifier: "MapScreen") as! MapViewController
+                self.navigationController?.pushViewController(mapScreen, animated: true)
+                self.sendRequest()
+                print("MAP")
+                
+            }))
             
-        }))
-        
-        alert.addAction(UIAlertAction(title: "GPS", style: .default, handler: {action  in self.getLocationGPS()} ))
-        
-        self.present(alert , animated: true , completion: nil)
+            alert?.addAction(UIAlertAction(title: "GPS", style: .default, handler: {action  in self.getLocationGPS()
+                self.sendRequest()
+            } ))
+            
+            self.present(alert! , animated: true , completion: nil)
         }
-        sendRequest()
+//        sendRequest()
         myTable.delegate = self
         myTable.dataSource = self
         //to display -> pressure and windspeed and so on
@@ -90,7 +89,6 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         myHourlyCollection.delegate = self
         myHourlyCollection.dataSource = self
         print("ViewDidAppear")
-        //        myCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell2")
         
     }
     
@@ -131,59 +129,58 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         
         
         // MARK: ALAMOFIRE
+        let monitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "InternetConnectionMonitor")
         
         //assign parameters
         let parameters = ["lon": lon! , "lat": lat! ,"appid": "00cc0edd6a289076e66954faceaf9259" ,"units": unit!] as [String : Any]
-        print("laaaat \(String(describing: parameters["lon"]))")
-        
-        AF.request("https://api.openweathermap.org/data/2.5/onecall?",parameters: parameters)
-            .responseJSON(completionHandler:{[weak self] response in
-                
-                //get request on type data
-                guard let reponse = response.data else {
-                    return
+        // check network
+        monitor.pathUpdateHandler = { pathUpdateHandler  in
+           
+            print("entered")
+            if pathUpdateHandler.status == .satisfied {
+                print("Internet connection is on.")
+                print("laaaat \(String(describing: parameters["lon"]))")
+                AF.request("https://api.openweathermap.org/data/2.5/onecall?",parameters: parameters)
+                    .responseJSON(completionHandler:{[weak self] response in
+                        
+                        //get request on type data
+                        guard let reponse = response.data else {return}
+                        do {
+                            let result = try JSONDecoder().decode(Reponse.self, from: reponse)
+                            myIndicator.stopAnimating()
+                            DispatchQueue.main.async {
+                                myIndicator.stopAnimating()
+                                self?.timeZoneLabel.text = result.timezone
+                                self?.currentDescLabel.text = result.current?.weather?.first?.description
+                                let ctemp = result.current?.temp!
+                                self?.currentTempLabel.text = String(format: "%.2f", ctemp ?? " ") + String( (self?.unitsign)!)
+                                self?.current = result.current
+                                self?.mydays = result.daily
+                                self?.myhourly = result.hourly
+                                
+                                //reload data
+                                self?.myTable.reloadData() // daily
+                                self?.myHourlyCollection.reloadData() //hourly
+                                self?.myCollection.reloadData()
+                            }}
+                        catch let error{
+                            print("error : \(error.localizedDescription)")
+                        }})
+            } else
+            {
+                print("No Internet Connection")
+                DispatchQueue.main.async {
+                    let alert : UIAlertController = UIAlertController(title: "ERROR", message: "Please check your internet connection", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { action in
+                        self.sendRequest()} ))
+                    self.present(alert , animated: true , completion: nil)
                 }
-                do {
-                    print("inside the do")
-                    //                    print("request \(response.value)")
-                    let result = try JSONDecoder().decode(Reponse.self, from: reponse)
-                    print( result.timezone)
-                    myIndicator.stopAnimating()
-                    DispatchQueue.main.async {
-                        myIndicator.stopAnimating()
-                        self?.timeZoneLabel.text = result.timezone
-                        self?.currentDescLabel.text = result.current?.weather?.first?.description
-                        
-                        let ctemp = result.current?.temp!
-                        self?.currentTempLabel.text = String(format: "%.2f", ctemp ?? " ") + String( (self?.unitsign)!)
-                        
-                        self?.current = result.current
-                        
-                        self?.mydays = result.daily
-                        
-                        //MARK : problem in hourly class
-                        self?.myhourly = result.hourly
-                        
-                        //reload data
-                        self?.myTable.reloadData() // daily
-                        self?.myHourlyCollection.reloadData() //hourly
-                        self?.myCollection.reloadData()
-                        myIndicator.stopAnimating()
+               
 
-                        print("finish")
-                        
-                    }
-                    myIndicator.stopAnimating()
-
-                }
-                catch let error{
-                    print("error : \(error.localizedDescription)")
-                }
-                
-                
-            })
-        
-        
+            }
+        }
+        monitor.start(queue: queue)
     }
     
     
@@ -333,16 +330,6 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         return UICollectionViewCell()
     }
     
-    
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    //        var collectionViewSize = collectionView.frame.size
-    //        if collectionView == myCollection {
-    //            collectionViewSize.width = collectionViewSize.width/3.0 //Display Three elements in a row.
-    //            //            collectionViewSize.height = collectionViewSize.height/4.0
-    //        }
-    //        return collectionViewSize
-    //    }
-    //
     func getLocationGPS(){
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
@@ -352,10 +339,7 @@ class ViewController: UIViewController , UITableViewDataSource ,UICollectionView
         locationManager.requestWhenInUseAuthorization()
         // If location services is enabled get the users location
         if CLLocationManager.locationServicesEnabled() {
-            print("Allowed")
             locationManager.startUpdatingLocation()
-            print("start")
-            //                    locationManager.requestLocation()
         }
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             if let error = error as? CLError, error.code == .denied {
