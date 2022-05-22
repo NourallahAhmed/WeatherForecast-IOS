@@ -4,7 +4,7 @@ user set his location by GPS or MAP and can change the unit for the temperature 
 
 
 # Features
- - Detect the weather in your current location for the moment and for the future 48 hours and 7 days.
+ - Detect the weather in your current location for the moment and for the future 24 hours and 7 days.
  - Get the location through Apple Maps or GPS.
  - Change temperature units.
 # Tools
